@@ -18,10 +18,10 @@ export default {
     emits: ['update:content:effect'],
     setup(props) {
         const uniqueID = wwLib.wwUtils.getUniqueId();
-        const { variableValue: isPlayedVariableValue, setValue: setIsPlayedValue } =
+        const { variableValue: isPlayingVariableValue, setValue: setIsPlayingValue } =
             wwLib.wwVariable.useComponentVariable({
                 uid: props.uid,
-                name: 'Is Played',
+                name: 'Is Playing',
                 type: 'boolean',
                 defaultValue: false,
                 readonly: true,
@@ -37,8 +37,8 @@ export default {
 
         return {
             uniqueID,
-            isPlayedVariableValue,
-            setIsPlayedValue,
+            isPlayingVariableValue,
+            setIsPlayingValue,
             currentTimeVariableValue,
             setCurrentTimeValue,
         };
@@ -106,10 +106,10 @@ export default {
 
             /* wwEditor:start */
             player.on(dailymotion.events.VIDEO_PLAY, () => {
-                this.updateIsPlayed(true);
+                this.updateIsPlaying(true);
             });
             player.on(dailymotion.events.VIDEO_PAUSE, () => {
-                this.updateIsPlayed(false);
+                this.updateIsPlaying(false);
             });
             player.on(dailymotion.events.VIDEO_END, () => {
                 this.$emit('trigger-event', { name: 'end', event: {} });
@@ -123,9 +123,9 @@ export default {
             if (typeof currentTime !== 'number') return;
             this.setCurrentTimeValue(currentTime.toFixed(2));
         },
-        updateIsPlayed(isPlayed) {
-            this.setIsPlayedValue(isPlayed);
-            if (isPlayed) {
+        updateIsPlaying(isPlaying) {
+            this.setIsPlayingValue(isPlaying);
+            if (isPlaying) {
                 this.$emit('trigger-event', { name: 'play', event: {} });
             } else {
                 this.$emit('trigger-event', { name: 'pause', event: {} });
