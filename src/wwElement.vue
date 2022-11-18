@@ -61,7 +61,6 @@ export default {
         content: {
             deep: true,
             handler() {
-                console.log('toto 🚀 🚀 🚀 🚀');
                 this.initPlayer();
             },
         },
@@ -85,7 +84,6 @@ export default {
             dailymotion
                 .createPlayer(`dailymotion-player-${this.uniqueID}`, {
                     video: this.videoId,
-                    autoplay: false,
                     params: {
                         startTime: this.content.videoStartTime,
                         mute: this.content.muted,
@@ -93,16 +91,14 @@ export default {
                     },
                 })
                 .then(player => {
-                    // player.pause();
-                    console.log('Settings', player, player.getSettings());
                     player.on(dailymotion.events.VIDEO_PLAY, () => {
-                        console.log('EVENT');
                         this.updateIsPlaying(true);
                     });
                     player.on(dailymotion.events.VIDEO_PAUSE, () => {
                         this.updateIsPlaying(false);
                     });
                     player.on(dailymotion.events.VIDEO_END, () => {
+                        this.updateIsPlaying(false);
                         this.$emit('trigger-event', { name: 'end', event: {} });
                     });
                     player.on(dailymotion.events.VIDEO_TIMECHANGE, event => {

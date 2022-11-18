@@ -24,7 +24,6 @@ export default {
                 placeholder: 'Url',
             },
             bindable: true,
-            hidden: content => content.provider === 'weweb',
             defaultValue: 'https://www.dailymotion.com/video/x84sh87',
             /* wwEditor:start */
             bindingValidation: {
@@ -56,35 +55,36 @@ export default {
             defaultValue: 0,
             hidden: true,
         },
-        autoplay: {
-            label: { en: 'Autoplay', fr: 'Lecture automatique' },
-            type: 'OnOff',
-            section: 'settings',
-            defaultValue: false,
-            /* wwEditor:start */
-            bindingValidation: {
-                type: 'boolean',
-                tooltip: 'A boolean that defines if the video should start automatically: `true | false`',
-            },
-            /* wwEditor:end */
-        },
+        // Need a dailymotion partner account to be customized (https://developers.dailymotion.com/player/#player-settings)
+        // autoplay: {
+        //     label: { en: 'Autoplay', fr: 'Lecture automatique' },
+        //     type: 'OnOff',
+        //     section: 'settings',
+        //     defaultValue: false,
+        //     /* wwEditor:start */
+        //     bindingValidation: {
+        //         type: 'boolean',
+        //         tooltip: 'A boolean that defines if the video should start automatically: `true | false`',
+        //     },
+        //     /* wwEditor:end */
+        // },
+        // controls: {
+        //     label: { en: 'Controls', fr: 'Contrôles' },
+        //     type: 'OnOff',
+        //     section: 'settings',
+        //     defaultValue: true,
+        // },
         muted: {
             label: { en: 'Muted', fr: 'Muet' },
             type: 'OnOff',
             section: 'settings',
-            defaultValue: false,
+            defaultValue: true,
         },
         loop: {
             label: { en: 'Loop', fr: 'Lecture en boucle' },
             type: 'OnOff',
             section: 'settings',
             defaultValue: false,
-        },
-        controls: {
-            label: { en: 'Controls', fr: 'Contrôles' },
-            type: 'OnOff',
-            section: 'settings',
-            defaultValue: true,
         },
     },
 };
