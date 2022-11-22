@@ -89,8 +89,9 @@ export default {
         loopInfo: {
             label: { en: 'Loop Info' },
             type: 'Info',
+            section: 'settings',
             options: {
-                text: 'The player will loop your video or between recommendations depending on your <a href="" target="_blank"><u>video configuration</u></a>.',
+                text: 'The player will loop your video or between recommendations depending on your <a href="https://www.dailymotion.com/partner/embed/players" target="_blank"><u>Player configuration</u></a>',
             },
         },
     },
