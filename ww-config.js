@@ -7,7 +7,7 @@ export default {
             fr: 'Vidéo - Dailymotion',
             en: 'Vidéo - Dailymotion',
         },
-        icon: 'play',
+        icon: 'logos/dailymotion',
     },
     triggerEvents: [
         { name: 'play', label: { en: 'On play' }, event: { value: '' }, default: true },
