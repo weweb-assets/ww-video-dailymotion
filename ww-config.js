@@ -86,5 +86,12 @@ export default {
             section: 'settings',
             defaultValue: false,
         },
+        loopInfo: {
+            label: { en: 'Loop Info' },
+            type: 'Info',
+            options: {
+                text: 'The player will loop your video or between recommendations depending on your <a href="" target="_blank"><u>video configuration</u></a>.',
+            },
+        },
     },
 };
