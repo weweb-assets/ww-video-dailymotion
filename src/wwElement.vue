@@ -1,12 +1,10 @@
 <template>
-    <div class="ww-video-dailymotion" :class="{ editing: isEditing }" :key="componentKey">
+    <div class="ww-video-dailymotion" :class="{ editing: isEditing }">
         <div class="ww-video-dailymotion__player" :id="`dailymotion-player-${uniqueID}`"></div>
     </div>
 </template>
 
 <script>
-import { nextTick } from 'vue';
-
 export default {
     props: {
         content: { type: Object, required: true },
@@ -43,11 +41,6 @@ export default {
             setCurrentTimeValue,
         };
     },
-    data() {
-        return {
-            componentKey: 0,
-        };
-    },
     computed: {
         isEditing() {
             /* wwEditor:start */
@@ -65,11 +58,11 @@ export default {
         isEditing() {
             this.initPlayer();
         },
-        'content.url'() {
-            this.initPlayer();
-        },
-        'content.videoStartTime'() {
-            this.initPlayer();
+        content: {
+            deep: true,
+            handler() {
+                this.initPlayer();
+            },
         },
     },
     mounted() {
@@ -87,37 +80,32 @@ export default {
             };
         },
         async initPlayer() {
-            this.componentKey += 1;
-
-            await nextTick();
-
-            const dailymotion = wwLib.getFrontWindow().dailymotion;
-            this.player = await dailymotion.createPlayer(`dailymotion-player-${this.uniqueID}`, {
-                video: this.videoId,
-                params: {
-                    startTime: this.content.videoStartTime,
-                    loop: this.content.loop,
-                    mute: this.content.muted,
-                    enable_controls: this.content.controls,
-                },
-            });
-
-            if (!this.content.autoplay) this.player.pause();
-
-            /* wwEditor:start */
-            player.on(dailymotion.events.VIDEO_PLAY, () => {
-                this.updateIsPlaying(true);
-            });
-            player.on(dailymotion.events.VIDEO_PAUSE, () => {
-                this.updateIsPlaying(false);
-            });
-            player.on(dailymotion.events.VIDEO_END, () => {
-                this.$emit('trigger-event', { name: 'end', event: {} });
-            });
-            player.on(dailymotion.events.VIDEO_TIMECHANGE, event => {
-                this.updateCurrentTime(event.videoTime);
-            });
-            /* wwEditor:end */
+            wwLib.getFrontWindow();
+            dailymotion
+                .createPlayer(`dailymotion-player-${this.uniqueID}`, {
+                    video: this.videoId,
+                    params: {
+                        startTime: this.content.videoStartTime,
+                        mute: this.content.muted,
+                        loop: this.content.loop,
+                    },
+                })
+                .then(player => {
+                    player.on(dailymotion.events.VIDEO_PLAY, () => {
+                        this.updateIsPlaying(true);
+                    });
+                    player.on(dailymotion.events.VIDEO_PAUSE, () => {
+                        this.updateIsPlaying(false);
+                    });
+                    player.on(dailymotion.events.VIDEO_END, () => {
+                        this.updateIsPlaying(false);
+                        this.$emit('trigger-event', { name: 'end', event: {} });
+                    });
+                    player.on(dailymotion.events.VIDEO_TIMECHANGE, event => {
+                        this.updateCurrentTime(event.videoTime);
+                    });
+                })
+                .catch(e => wwLib.wwLog.error(e));
         },
         updateCurrentTime(currentTime) {
             if (typeof currentTime !== 'number') return;

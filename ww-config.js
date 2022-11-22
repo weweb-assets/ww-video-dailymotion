@@ -24,8 +24,13 @@ export default {
                 placeholder: 'Url',
             },
             bindable: true,
-            hidden: content => content.provider === 'weweb',
             defaultValue: 'https://www.dailymotion.com/video/x84sh87',
+            /* wwEditor:start */
+            bindingValidation: {
+                type: 'string',
+                tooltip: 'A dailymotion local video url: `"https://www.dailymotion.com/video/x84sh87"`',
+            },
+            /* wwEditor:end */
         },
         videoStartTime: {
             label: {
@@ -33,101 +38,53 @@ export default {
             },
             type: 'Number',
             options: (_, sidepanelContent) => {
-                console.log(sidepanelContent.videoDuration);
                 return { min: 0, max: sidepanelContent.videoDuration };
             },
             section: 'settings',
             bindable: true,
             defaultValue: 0,
+            /* wwEditor:start */
+            bindingValidation: {
+                type: 'number',
+                tooltip: 'A number that defines the video start time, in seconds: `42`',
+            },
+            /* wwEditor:end */
         },
         videoDuration: {
             editorOnly: true,
             defaultValue: 0,
             hidden: true,
         },
-        autoplay: {
-            label: { en: 'Autoplay', fr: 'Lecture automatique' },
-            type: 'TextRadioGroup',
-            section: 'settings',
-            options: {
-                choices: [
-                    {
-                        default: true,
-                        value: false,
-                        title: { en: 'Start', fr: 'Début' },
-                        icon: 'none',
-                    },
-                    {
-                        value: true,
-                        title: { en: 'Center', fr: 'Milieu' },
-                        icon: 'tick',
-                    },
-                ],
-            },
-            defaultValue: false,
-        },
+        // Need a dailymotion partner account to be customized (https://developers.dailymotion.com/player/#player-settings)
+        // autoplay: {
+        //     label: { en: 'Autoplay', fr: 'Lecture automatique' },
+        //     type: 'OnOff',
+        //     section: 'settings',
+        //     defaultValue: false,
+        //     /* wwEditor:start */
+        //     bindingValidation: {
+        //         type: 'boolean',
+        //         tooltip: 'A boolean that defines if the video should start automatically: `true | false`',
+        //     },
+        //     /* wwEditor:end */
+        // },
+        // controls: {
+        //     label: { en: 'Controls', fr: 'Contrôles' },
+        //     type: 'OnOff',
+        //     section: 'settings',
+        //     defaultValue: true,
+        // },
         muted: {
             label: { en: 'Muted', fr: 'Muet' },
-            type: 'TextRadioGroup',
+            type: 'OnOff',
             section: 'settings',
-            options: {
-                choices: [
-                    {
-                        default: true,
-                        value: false,
-                        title: { en: 'Start', fr: 'Début' },
-                        icon: 'none',
-                    },
-                    {
-                        value: true,
-                        title: { en: 'Center', fr: 'Milieu' },
-                        icon: 'tick',
-                    },
-                ],
-            },
-            defaultValue: false,
+            defaultValue: true,
         },
         loop: {
             label: { en: 'Loop', fr: 'Lecture en boucle' },
-            type: 'TextRadioGroup',
+            type: 'OnOff',
             section: 'settings',
-            options: {
-                choices: [
-                    {
-                        default: true,
-                        value: false,
-                        title: { en: 'Start', fr: 'Début' },
-                        icon: 'none',
-                    },
-                    {
-                        value: true,
-                        title: { en: 'Center', fr: 'Milieu' },
-                        icon: 'tick',
-                    },
-                ],
-            },
             defaultValue: false,
-        },
-        controls: {
-            label: { en: 'Controls', fr: 'Contrôles' },
-            type: 'TextRadioGroup',
-            section: 'settings',
-            options: {
-                choices: [
-                    {
-                        value: false,
-                        title: { en: 'Start', fr: 'Début' },
-                        icon: 'none',
-                    },
-                    {
-                        default: true,
-                        value: true,
-                        title: { en: 'Center', fr: 'Milieu' },
-                        icon: 'tick',
-                    },
-                ],
-            },
-            defaultValue: true,
         },
     },
 };
