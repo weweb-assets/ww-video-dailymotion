@@ -9,6 +9,20 @@ export default {
         },
         icon: 'logos/dailymotion',
     },
+    actions: [
+        { label: 'Play video', action: 'playVideo' },
+        { label: 'Pause video', action: 'pauseVideo' },
+        {
+            label: 'Seek to',
+            action: 'seekTo',
+            args: [
+                {
+                    name: 'Time',
+                    type: 'number',
+                },
+            ],
+        },
+    ],
     triggerEvents: [
         { name: 'play', label: { en: 'On play' }, event: { value: '' }, default: true },
         { name: 'pause', label: { en: 'On pause' }, event: { value: '' } },

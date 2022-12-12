@@ -80,9 +80,9 @@ export default {
             };
         },
         async initPlayer() {
-            wwLib.getFrontWindow();
-            dailymotion
-                .createPlayer(`dailymotion-player-${this.uniqueID}`, {
+            wwLib
+                .getFrontWindow()
+                .dailymotion.createPlayer(`dailymotion-player-${this.uniqueID}`, {
                     video: this.videoId,
                     params: {
                         startTime: this.content.videoStartTime,
@@ -118,6 +118,33 @@ export default {
             } else {
                 this.$emit('trigger-event', { name: 'pause', event: {} });
             }
+        },
+        async playVideo() {
+            await wwLib
+                .getFrontWindow()
+                .dailymotion.getPlayer(`dailymotion-player-${this.uniqueID}`)
+                .then(player => {
+                    if (!player) return;
+                    player.play();
+                });
+        },
+        async pauseVideo() {
+            await wwLib
+                .getFrontWindow()
+                .dailymotion.getPlayer(`dailymotion-player-${this.uniqueID}`)
+                .then(player => {
+                    if (!player) return;
+                    player.pause();
+                });
+        },
+        async seekTo(time) {
+            await wwLib
+                .getFrontWindow()
+                .dailymotion.getPlayer(`dailymotion-player-${this.uniqueID}`)
+                .then(player => {
+                    if (!player) return;
+                    player.seek(time);
+                });
         },
     },
 };
