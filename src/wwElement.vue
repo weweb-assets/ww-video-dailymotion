@@ -15,7 +15,7 @@ export default {
     },
     emits: ['update:content:effect'],
     setup(props) {
-        const uniqueID = wwLib.wwUtils.getUniqueId();
+        const uniqueID = props.uid.split('-')[0];
         const { variableValue: isPlayingVariableValue, setValue: setIsPlayingValue } =
             wwLib.wwVariable.useComponentVariable({
                 uid: props.uid,
