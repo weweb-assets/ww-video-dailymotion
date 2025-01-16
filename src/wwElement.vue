@@ -1,6 +1,9 @@
 <template>
     <div class="ww-video-dailymotion" :class="{ editing: isEditing }">
-        <div class="ww-video-dailymotion__player" :id="`dailymotion-player-${uniqueID}`"></div>
+        <div v-if="error" class="ww-video-dailymotion__error">
+            {{ error }}
+        </div>
+        <div v-else class="ww-video-dailymotion__player" :id="`dailymotion-player-${uniqueID}`"></div>
     </div>
 </template>
 
@@ -50,8 +53,22 @@ export default {
             return false;
         },
         videoId() {
-            if (!this.content.url) return {};
-            return this.content.url.split('video/')[1].split('?')[0];
+            if (!this.content.url) {
+                this.error = 'Please provide a Dailymotion video URL';
+                return null;
+            }
+            try {
+                const match = this.content.url.match(/video\/([^?]+)/);
+                if (!match) {
+                    this.error = 'Invalid Dailymotion URL format. Expected format: https://www.dailymotion.com/video/VIDEO_ID';
+                    return null;
+                }
+                this.error = null;
+                return match[1];
+            } catch (error) {
+                this.error = 'Failed to parse Dailymotion URL';
+                return null;
+            }
         },
     },
     watch: {
@@ -71,7 +88,7 @@ export default {
     methods: {
         async handleScript() {
             const scriptElement = wwLib.getFrontDocument().createElement('script');
-            scriptElement.setAttribute('src', `https://geo.dailymotion.com/libs/player/${this.uniqueID}.js`);
+            scriptElement.setAttribute('src', `https://geo.dailymotion.com/libs/player/${this.videoId}.js`);
             scriptElement.setAttribute('type', 'text/javascript');
             wwLib.getFrontDocument().body.appendChild(scriptElement);
 
