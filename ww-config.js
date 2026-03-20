@@ -24,9 +24,9 @@ export default {
         },
     ],
     triggerEvents: [
-        { name: 'play', label: { en: 'On play' }, event: { value: '' }, default: true },
-        { name: 'pause', label: { en: 'On pause' }, event: { value: '' } },
-        { name: 'end', label: { en: 'On end' }, event: { value: '' } },
+        { name: 'play', label: { en: 'On play' }, event: { value: '' }, default: true, description: "Run when playback starts." },
+        { name: 'pause', label: { en: 'On pause' }, event: { value: '' }, description: "Run when playback pauses." },
+        { name: 'end', label: { en: 'On end' }, event: { value: '' }, description: "Run when playback reaches the end." },
     ],
     properties: {
         url: {
